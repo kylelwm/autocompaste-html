@@ -46,8 +46,8 @@
                                 <td><span class="js-expt-granularity">Phrase</span></td>
                             </tr>
                             <tr>
-                                <td>Independent Variable 3</td>
-                                <td>???</td>
+                                <td>Disjoint</td>
+                                <td><span class="js-expt-disjoint">Disjointed text</span></td>
                             </tr>
                             <tr>
                                 <td>Trial</td>
@@ -81,9 +81,9 @@
             var trialsData;
             var currentTrial;
             var totalNumberOfTrials;
-            var headers = ['Participant id', 'Technique', 'Granularity',
+            var headers = ['Participant id', 'Technique', 'Granularity', 'Disjoint',
                             'Trial no', 'Stimuli', 'User Response', 'Trial Start Time',
-                            'Trial End Time', 'Trial Time', 'Accuracy'];
+                            'Trial End Time', 'Trial Time', 'Accuracy', 'Throughput'];
             var trialData = [];
             var pid;
 
@@ -93,18 +93,28 @@
 
                     var technique = trialResult.technique;
                     var granularity = trialResult.granularity;
+                    var disjoint = trialResult.disjoint
                     var trialNum = currentTrial;
                     var stimuli = trialResult.stimuli;
                     var userResponse = trialResult.user_response;
                     var trialStartTime = trialResult.start_time;
                     var trialEndTime = trialResult.end_time;
                     var trialDuration = trialResult.duration;
-                    var accuracy = stimuli === userResponse ? 1 : 0;
+                    var throughPut = userResponse.split(" ").length / (trialResult.duration / 1000);
 
-                    var row = [pid, technique, granularity, trialNum,
-                                stimuli, userResponse, trialStartTime,
-                                trialEndTime, trialDuration, accuracy];
+                    // Remove delimitter in stimuli
+                    var actualStimuli = stimuli.replace("\n\n", " ");
+                    var accuracy = actualStimuli === userResponse ? 1 : 0;
+
+                    var row = [pid, technique, granularity, disjoint, trialNum,
+                                actualStimuli, userResponse, trialStartTime,
+                                trialEndTime, trialDuration, accuracy, throughPut];
                     trialData.push(row);
+                }
+
+                // BREAK TIME
+                if(currentTrial === 36) {
+                    $("body").append("<div id='break-notification' class='text-center'><div id='break-panel' class='panel panel-default'><div class='panel-body'><h2>Please take a rest!</h2><button id='continue-button' class='btn btn-primary btn-lg' onclick='hideRest()'>Continue</button></div></div></div>");
                 }
 
                 if (currentTrial < totalNumberOfTrials) {
@@ -118,16 +128,61 @@
                 }
             }
 
+            function hideRest() {
+                $('#break-notification').hide();
+            }
+
+            function buildExperiment(participants, stimuli) {
+                var experiments = [];
+                var disjointOrder = ['notDisjointed', 'disjointed'];
+                var blockSize = participants.trialsOrder.length;
+                var techniqueSize = participants.techniqueOrder.length;
+                var granularitySize = participants.granularityOrder.length;
+
+                for(var blockIndex = 0; blockIndex < blockSize; blockIndex++) {
+                    for(var techniqueIndex = 0; techniqueIndex < techniqueSize; techniqueIndex++) {
+                        for(var granularityIndex = 0; granularityIndex < granularitySize; granularityIndex++) {
+                            for(var disjointIndex = 0; disjointIndex < disjointOrder.length; disjointIndex++) {
+                                var trials = participants.trialsOrder[blockIndex];
+                                for(var trialIndex = 0; trialIndex < trials.length; trialIndex++) {
+                                    var technique = participants.techniqueOrder[techniqueIndex];
+                                    var granularity = participants.granularityOrder[granularityIndex];
+                                    var disjoint = disjointOrder[disjointIndex];
+                                    var trial = trials[trialIndex];
+                                    experiments.push(createExperimentCondition(technique, granularity, disjoint, trial, stimuli));
+                                }
+                            }
+                        }
+                    }
+                }
+                return experiments;
+            }
+
+            function createExperimentCondition(technique, granularity, disjoint, trial, stimuli) {
+                var experimentCondition = {
+                    "technique": technique,
+                    "granularity": granularity,
+                    "disjoint": disjoint,
+                    "data_file": "data/texts.json"
+                };
+                experimentCondition.stimuli = stimuli[disjoint][granularity][trial];
+                return experimentCondition;
+            }
+
             $(document).ready(function () {
-                $.get('data/experiments.json', function (data) {
-                    trialsData = data.experiments;
+                pid = ACPToolKit.getCurrentParticipantId();
+                var stimuliPromise = $.getJSON('data/stimuli.json');
+                var participantsPromise = $.getJSON('data/participants.json');
+                $.when(stimuliPromise, participantsPromise).then(function(stimuliData, participantsData) {
+                    var stimuli = stimuliData[0].trials;
+                    var participants = participantsData[0].participants;
+                    trialsData = buildExperiment(participants[pid], stimuli);
                     currentTrial = 0;
                     totalNumberOfTrials = trialsData.length;
                     $('.js-expt-num-trials').text(totalNumberOfTrials);
                     trialData.push(headers);
                     next();
-                    pid = ACPToolKit.getCurrentParticipantId();
-                })
+                });
             });
         </script>
     </body>
