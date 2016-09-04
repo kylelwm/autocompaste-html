@@ -1,0 +1,38 @@
+{
+    "trials": {
+        "disjointed": {
+            "phrase": [
+                "Loss or dissipation of energy\n\noscillator that uses an isolation transformer",
+                "how easily AC will flow through\n\nproduct of effective voltage and current",
+                "continuously varying voltage or current\n\narea of the wave"                    
+            ],
+            "sentence": [
+                "What is AC load line?\n\nWhat is base biasing?",
+                "What is alkaline cell?\n\nTraditionally in English, an article is usually considered to be a type of adjective.",
+                "The rotating or moving component of a magnetic circuit.\n\nAviation electronics."
+            ],
+            "paragraph": [
+                "What is active filter? A filter that uses an amplifier in addition to reactive components to pass or reject selected frequencies.\n\nWhat is alligator clip? Spring clip on the end of a test lead used to make a temporary connection.",
+                "What is apparent power? Power attained in an AC circuit as a product of effective voltage and current which reach their peak at different times.\n\nWhat is audio? Relating to frequencies that can be heard by the human ear. Approximately 20 Hz to 20 kHz.",
+                "What is bipolar junction transistor? (BJT), A three terminal device in which emitter to collector current is controlled by base current.\n\nTraditionally in English, an article is usually considered to be a type of adjective. In some languages, articles are a special part of speech, which cannot easily be combined with other parts of speech."
+            ]   
+        },
+        "notDisjointed": {
+            "phrase": [
+                "usually considered to be a type of adjective",
+                "continuously varying voltage or current rather than in discrete levels",
+                "falls back to zero and then rises to a maximum"
+            ],
+            "sentence": [
+                "A graph representing all possible combinations of AC output voltage and currentfor an amplifier.",
+                "Spring clip on the end of a test lead used to make a temporary connection.",
+                "A method of biasing a BJT in which the bias voltage is supplied to the base by means of a resistor."
+            ],
+            "paragraph": [
+                "What is bistable multivibrator? A multi vibrator with two stable states. An external signal is required to change the output from one state to the other. Also called a latch.",
+                "What is band-pass filter? A tuned circuit designed to pass a band of frequencies between a lower cut-off frequency (f1) and a higher cut-off frequency (f2). Frequencies above and below the pass band are heavily attenuated.",
+                "This is in contrast to other adjectives and determiners, which are typically optional. This obligatory nature of articles makes them among the most common words in many languages - in English, for example, the most frequent word is the."
+            ]   
+        }
+    }
+}
