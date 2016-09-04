@@ -1,0 +1,45 @@
+{
+	"participants": [{
+	  "techniqueOrder": ["AUTOCOMPASTE", "TRADITIONAL"],
+		"granularityOrder": ["phrase", "sentence", "paragraph"],
+		"trialsOrder": [
+			[0, 1, 2],
+			[2, 1, 0]
+		]
+	}, {
+		"techniqueOrder": ["AUTOCOMPASTE", "TRADITIONAL"],
+		"granularityOrder": ["sentence", "paragraph", "phrase"],
+		"trialsOrder": [
+			[0, 2, 1],
+			[2, 0, 1]
+		]
+	}, {
+		"techniqueOrder": ["AUTOCOMPASTE", "TRADITIONAL"],
+		"granularityOrder": ["paragraph", "phrase", "sentence"],
+		"trialsOrder": [
+			[1, 0, 2],
+			[1, 2, 0]
+		]
+	}, {
+		"techniqueOrder": ["TRADITIONAL", "AUTOCOMPASTE"],
+		"granularityOrder": ["phrase", "sentence", "paragraph"],
+		"trialsOrder": [
+			[1, 2, 0],
+			[1, 0, 2]
+		]
+	}, {
+		"techniqueOrder": ["TRADITIONAL", "AUTOCOMPASTE"],
+		"granularityOrder": ["sentence", "paragraph", "phrase"],
+		"trialsOrder": [
+			[2, 0, 1],
+			[0, 2, 1]
+		]
+	}, {
+		"techniqueOrder": ["TRADITIONAL", "AUTOCOMPASTE"],
+		"granularityOrder": ["paragraph", "phrase", "sentence"],
+		"trialsOrder": [
+			[2, 1, 0],
+			[0, 1, 2]
+		]
+	}]
+}
