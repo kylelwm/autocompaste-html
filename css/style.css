@@ -139,3 +139,25 @@ body.experiment-page {
   -ms-user-select: none;
   user-select: none;
 }
+
+#break-notification {
+  position: absolute;
+  z-index: 9999;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.3);
+}
+
+#break-panel {
+  top: 40%;
+  position: relative;
+  margin: 0 auto;
+  width: 500px;
+  display: block;
+}
+
+.stimuli-2 {
+  color: blue;
+}
