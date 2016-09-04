@@ -62,6 +62,20 @@ var ACPToolKit = (function () {
         $a.remove();
     }
 
+    function formatDisjointedStimuli(stimuli) {
+        var disjointedStimuli = stimuli.split("\n\n");
+        var classes = ["stimuli-1", "stimuli-2"];
+        var resultStimuli = "";
+        for(var i = 0; i < disjointedStimuli.length; i++) {
+            resultStimuli += "<span class=\"" + classes[i] + "\">" + disjointedStimuli[i] + "</span>";
+
+            if(i < disjointedStimuli.length) {
+                resultStimuli += " ";
+            }
+        }
+        return resultStimuli;
+    }
+
     $(function () {
         // Populate interface with current participant's ID
         var $pidEl = $('.js-pid');
@@ -82,9 +96,28 @@ var ACPToolKit = (function () {
             var data_file = options.data_file;
             var stimuli = options.stimuli;
 
-            $('.js-expt-technique').text(options.technique);
-            $('.js-expt-granularity').text(options.granularity);
-            $('.js-expt-stimuli').text(options.stimuli);
+            if(options.technique === 'AUTOCOMPASTE') {
+                $('.js-expt-technique').text('AutoComPaste');
+            } else {
+                $('.js-expt-technique').text('Traditional');
+            }
+
+            $('.js-expt-granularity').text(options.granularity.charAt(0).toUpperCase() + options.granularity.slice(1));
+
+            if(options.disjoint === 'disjointed') {
+                $('.js-expt-disjoint').text('Disjointed text');
+            } else {
+                $('.js-expt-disjoint').text('Not disjointed text');
+            }
+                
+            var formattedStimuli;
+
+            if(options.stimuli.indexOf("\n\n") > -1) {
+                formattedStimuli = formatDisjointedStimuli(options.stimuli);
+            } else {
+                formattedStimuli = stimuli
+            }
+            $('.js-expt-stimuli').html(formattedStimuli);
 
             // Clean up DOM
             wm.destroyAllWindows();
