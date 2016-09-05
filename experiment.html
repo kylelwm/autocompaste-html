@@ -86,6 +86,7 @@
                             'Trial End Time', 'Trial Time', 'Accuracy', 'Throughput'];
             var trialData = [];
             var pid;
+            var breakGiven = false;
 
             function next () {
                 if (currentTrial !== 0) {
@@ -113,8 +114,10 @@
                 }
 
                 // BREAK TIME
-                if(currentTrial === 36) {
-                    $("body").append("<div id='break-notification' class='text-center'><div id='break-panel' class='panel panel-default'><div class='panel-body'><h2>Please take a rest!</h2><button id='continue-button' class='btn btn-primary btn-lg' onclick='hideRest()'>Continue</button></div></div></div>");
+                if(currentTrial === 36 && !breakGiven) {
+                    $("body").append("<div id='break-notification' class='text-center'><div id='break-panel' class='panel panel-default'><div class='panel-body'><h2>Please take a 5 minutes break!</h2><button id='continue-button' class='btn btn-primary btn-lg' onclick='continueExperiment()'>Continue</button></div></div></div>");
+                    breakGiven = true;
+                    return;
                 }
 
                 if (currentTrial < totalNumberOfTrials) {
@@ -128,8 +131,9 @@
                 }
             }
 
-            function hideRest() {
+            function continueExperiment() {
                 $('#break-notification').hide();
+                next();
             }
 
             function buildExperiment(participants, stimuli) {
